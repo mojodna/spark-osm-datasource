@@ -23,9 +23,9 @@ resolvers += mavenLocal
 libraryDependencies ++= Seq(
   "org.apache.spark" %% "spark-core" % "2.4.4",
   "org.apache.spark" %% "spark-sql" % "2.4.4",
-  "com.wolt.osm" % "parallelpbf" % "0.2.0",
-  "org.scalatest" %% "scalatest" % "3.1.0" % "it,test",
-  "org.scalactic" %% "scalactic" % "3.1.0" % "it,test"
+  "com.wolt.osm" % "parallelpbf" % "0.3.1",
+  "org.scalatest" %% "scalatest-funsuite" % "3.2.18" % "it,test",
+  "org.scalactic" %% "scalactic" % "3.2.18" % "it,test"
 )
 
 lazy val root = (project in file("."))

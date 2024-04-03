@@ -4,10 +4,11 @@ import org.apache.spark.sql.functions._
 import org.apache.spark.storage.StorageLevel
 import org.scalactic.Tolerance._
 import org.scalatest._
+import org.scalatest.funsuite.AnyFunSuite
 
 import scala.collection.mutable
 
-class OsmReaderTest extends FunSuite with BeforeAndAfter {
+class OsmReaderTest extends AnyFunSuite with BeforeAndAfter {
   def dataframe: DataFrame = {
     val spark = SparkSession
       .builder()
