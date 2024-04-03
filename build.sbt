@@ -21,8 +21,8 @@ val mavenLocal = "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + 
 resolvers += mavenLocal
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.4.4",
-  "org.apache.spark" %% "spark-sql" % "2.4.4",
+  "org.apache.spark" %% "spark-core" % "2.4.4" % "provided",
+  "org.apache.spark" %% "spark-sql" % "2.4.4" % "provided",
   "com.wolt.osm" % "parallelpbf" % "0.3.1",
   "org.scalatest" %% "scalatest-funsuite" % "3.2.18" % "it,test",
   "org.scalactic" %% "scalactic" % "3.2.18" % "it,test"
@@ -31,3 +31,13 @@ libraryDependencies ++= Seq(
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(Defaults.itSettings)
+
+assembly / assemblyMergeStrategy := {
+  case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
+  case PathList("META-INF", "services", xs @ _*) =>
+    MergeStrategy.filterDistinctLines
+  case path if path.endsWith(".SF")  => MergeStrategy.discard
+  case path if path.endsWith(".DSA") => MergeStrategy.discard
+  case path if path.endsWith(".RSA") => MergeStrategy.discard
+  case _                             => MergeStrategy.first
+}
