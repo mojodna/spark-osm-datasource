@@ -15,6 +15,8 @@ version := "0.3.0"
 
 scalaVersion := "2.12.19"
 
+scalacOptions := Seq("-unchecked", "-deprecation")
+
 val mavenLocal = "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
 resolvers += mavenLocal
 
