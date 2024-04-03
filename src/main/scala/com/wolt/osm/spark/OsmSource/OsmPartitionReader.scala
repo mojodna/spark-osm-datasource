@@ -1,23 +1,22 @@
 package com.wolt.osm.spark.OsmSource
 
-import java.io.{FileInputStream, InputStream}
-import java.util.concurrent._
-import java.util.function.Consumer
-
 import com.wolt.osm.parallelpbf.ParallelBinaryParser
 import com.wolt.osm.parallelpbf.entity._
-import org.apache.hadoop.fs.{FSDataInputStream, Path}
+import org.apache.hadoop.fs.Path
 import org.apache.spark.SparkFiles
 import org.apache.spark.sql.catalyst.InternalRow
 import org.apache.spark.sql.catalyst.util._
-import org.apache.spark.sql.sources.v2.reader.InputPartitionReader
-import org.apache.spark.sql.types.StructType
+import org.apache.spark.sql.connector.read.PartitionReader
 import org.apache.spark.unsafe.types.UTF8String
 
+import java.io.{FileInputStream, InputStream}
+import java.util.concurrent._
+import java.util.function.Consumer
 import scala.collection.JavaConverters._
 import scala.collection.mutable
 
-class OsmPartitionReader(input: String, hadoop:SerializableHadoopConfigration, schema: StructType, threads: Int, partitionsNo: Int, partition: Int, useLocal: Boolean) extends InputPartitionReader[InternalRow] {
+class OsmPartitionReader(inputPartition: OsmPartition) extends PartitionReader[InternalRow] {
+  val OsmPartition(input, hadoop, schema, threads, partitionsNo, partition, useLocal) = inputPartition
   private val schemaColumnNames = schema.fields.map(_.name)
 
   private val parserTask = new FutureTask[Unit](new Callable[Unit]() {

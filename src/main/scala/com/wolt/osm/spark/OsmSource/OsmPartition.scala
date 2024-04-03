@@ -1,9 +1,12 @@
 package com.wolt.osm.spark.OsmSource
 
-import org.apache.spark.sql.catalyst.InternalRow
-import org.apache.spark.sql.sources.v2.reader.{InputPartition, InputPartitionReader}
+import org.apache.spark.sql.connector.read.InputPartition
 import org.apache.spark.sql.types.StructType
 
-class OsmPartition(input: String, hadoop: SerializableHadoopConfigration, schema: StructType, threads: Int, partitionsNo: Int, partition: Int, useLocal: Boolean) extends InputPartition[InternalRow] {
-  override def createPartitionReader(): InputPartitionReader[InternalRow] = new OsmPartitionReader(input, hadoop, schema, threads, partitionsNo, partition, useLocal)
+class OsmPartition(val input: String, val hadoop: SerializableHadoopConfigration, val schema: StructType, val threads: Int, val partitionsNo: Int, val partition: Int, val useLocal: Boolean) extends InputPartition
+
+object OsmPartition {
+  def unapply(inputPartition: OsmPartition): Option[(String, SerializableHadoopConfigration, StructType, Int, Int, Int, Boolean)] = {
+    Some((inputPartition.input, inputPartition.hadoop, inputPartition.schema, inputPartition.threads, inputPartition.partitionsNo, inputPartition.partition, inputPartition.useLocal))
+  }
 }

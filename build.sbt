@@ -21,8 +21,9 @@ val mavenLocal = "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + 
 resolvers += mavenLocal
 
 libraryDependencies ++= Seq(
-  "org.apache.spark" %% "spark-core" % "2.4.4" % "provided",
-  "org.apache.spark" %% "spark-sql" % "2.4.4" % "provided",
+  "org.apache.spark" %% "spark-core" % "3.5.1" % "provided",
+  "org.apache.spark" %% "spark-sql" % "3.5.1" % "provided",
+  "org.apache.spark" %% "spark-hadoop-cloud" % "3.5.1" % "provided",
   "com.wolt.osm" % "parallelpbf" % "0.3.1",
   "org.scalatest" %% "scalatest-funsuite" % "3.2.18" % "it,test",
   "org.scalactic" %% "scalactic" % "3.2.18" % "it,test"
