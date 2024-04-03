@@ -13,8 +13,7 @@ publishTo := sonatypePublishToBundle.value
 name := "spark-osm-datasource"
 version := "0.3.0"
 
-scalaVersion := "2.11.12"
-crossScalaVersions := Seq("2.12.10")
+scalaVersion := "2.12.19"
 
 val mavenLocal = "Local Maven Repository" at Path.userHome.asFile.toURI.toURL + ".m2/repository"
 resolvers += mavenLocal

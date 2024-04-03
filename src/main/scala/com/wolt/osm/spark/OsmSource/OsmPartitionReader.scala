@@ -14,7 +14,7 @@ import org.apache.spark.sql.sources.v2.reader.InputPartitionReader
 import org.apache.spark.sql.types.StructType
 import org.apache.spark.unsafe.types.UTF8String
 
-import scala.collection.JavaConversions._
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 
 class OsmPartitionReader(input: String, hadoop:SerializableHadoopConfigration, schema: StructType, threads: Int, partitionsNo: Int, partition: Int, useLocal: Boolean) extends InputPartitionReader[InternalRow] {
@@ -70,7 +70,7 @@ class OsmPartitionReader(input: String, hadoop:SerializableHadoopConfigration, s
   }
 
   def makeTags(tags: java.util.Map[String, String]): MapData = {
-    val stringifiedTags = tags.toMap.flatMap(kv => Map(UTF8String.fromString(kv._1.toLowerCase) -> UTF8String.fromString(kv._2)))
+    val stringifiedTags = tags.asScala.flatMap(kv => Map(UTF8String.fromString(kv._1.toLowerCase) -> UTF8String.fromString(kv._2)))
     ArrayBasedMapData(stringifiedTags)
   }
 
@@ -154,7 +154,7 @@ class OsmPartitionReader(input: String, hadoop:SerializableHadoopConfigration, s
 
   private val onRelation = callback[Relation](t => {
     val content = mutable.MutableList[Any]()
-    val members = t.getMembers.toSeq.map(member => {
+    val members = t.getMembers.asScala.map(member => {
       val role = if (member.getRole != null) {
         UTF8String.fromString(member.getRole)
       } else {
